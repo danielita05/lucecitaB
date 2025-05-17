@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz Cumpleaños Lucecita!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            padding-bottom: 30px;
+            position: relative;
+        }
+        header {
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            padding: 30px 20px;
+            color: white;
+            position: relative;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .subtitle {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+        .content {
+            padding: 30px;
+            text-align: center;
+        }
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .special-message {
+            font-size: 1.3em;
+            font-style: italic;
+            color: #d35400;
+            margin: 30px 0;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(255, 235, 205, 0.7);
+        }
+        footer {
+            margin-top: 30px;
+            color: #777;
+            font-size: 0.9em;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            opacity: 0.7;
+            animation: fall linear forwards;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+        .cake {
+            width: 100px;
+            height: 100px;
+            background-color: #f8c291;
+            border-radius: 50% 50% 10px 10px;
+            position: relative;
+            margin: 30px auto;
+        }
+        .cake:before {
+            content: "";
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 5px;
+            height: 25px;
+            background-color: #333;
+        }
+        .cake:after {
+            content: "";
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            background-color: #f39c12;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #f1c40f, 0 0 20px #f39c12;
+            animation: flicker 1s infinite alternate;
+        }
+        .layers {
+            position: absolute;
+            width: 100%;
+            height: 30px;
+            background-color: #f5b041;
+            top: 30px;
+            border-radius: 5px;
+        }
+        .layers:before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 30px;
+            background-color: #e74c3c;
+            top: -30px;
+            border-radius: 5px 5px 0 0;
+        }
+        @keyframes flicker {
+            0%, 100% {
+                opacity: 1;
+                box-shadow: 0 0 10px #f1c40f, 0 0 20px #f39c12;
+            }
+            50% {
+                opacity: 0.8;
+                box-shadow: 0 0 5px #f1c40f, 0 0 10px #f39c12;
+            }
+        }
+        .balloon {
+            position: absolute;
+            width: 50px;
+            height: 65px;
+            border-radius: 50%;
+            animation: float 5s infinite alternate ease-in-out;
+        }
+        .balloon:before {
+            content: "";
+            position: absolute;
+            width: 2px;
+            height: 70px;
+            background-color: rgba(0,0,0,0.3);
+            bottom: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(3deg);
+            }
+            100% {
+                transform: translateY(-20px) rotate(-3deg);
+            }
+        }
+
+        /* Carrusel */
+        .carousel-container {
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            margin: 30px auto;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .carousel-track img {
+            width: 100%;
+            flex-shrink: 0;
+            object-fit: cover;
+        }
+
+        /* Estilos para el control de audio */
+        .audio-control {
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .audio-control button {
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .audio-control button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+        }
+        .audio-control .volume-slider {
+            width: 200px;
+            margin-top: 5px;
+        }
+        .music-note {
+            animation: bounce 1s infinite alternate;
+            font-size: 24px;
+            color: #e74c3c;
+            display: inline-block;
+            margin: 0 5px;
+        }
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>¡Feliz 18 Cumpleañooos!</h1>
+            <div class="subtitle">Lucecita</div>
+        </header>
+        
+        <div class="content">
+            <div class="cake">
+                <div class="layers"></div>
+            </div>
+            
+            <p>Hoy celebramos tus <strong>18 años</strong>, qué emocióón.</p>
+            
+            <!-- Control de audio con Las Mañanitas -->
+            <div class="audio-control">
+                <div>
+                    <span class="music-note">♪</span>
+                    <span class="music-note" style="animation-delay: 0.2s">♫</span>
+                    <span class="music-note" style="animation-delay: 0.4s">♬</span>
+                    <span id="music-status">Las Mañanitas está sonando</span>
+                    <span class="music-note" style="animation-delay: 0.6s">♪</span>
+                    <span class="music-note" style="animation-delay: 0.8s">♫</span>
+                </div>
+                <div>
+                    <button id="play-pause-btn">Pausar</button>
+                    <button id="restart-btn">Reiniciar</button>
+                </div>
+                <div>
+                    <label for="volume">Volumen:</label>
+                    <input type="range" id="volume" class="volume-slider" min="0" max="1" step="0.1" value="0.5">
+                </div>
+            </div>
+            
+            <div class="special-message">
+                Lucecita:<br><br>
+                Hoy quiero celebrar no solo tu cumpleaños número 18, sino la increíble persona que eres.
+                Tu luz ilumina mi vida todos los días, justo como dice tu nombre.
+                No sabes lo afortunada que me siento de tenerte como hermana. Siempre me apoyas en todo y me inspiras a ser mejor.
+                Eres una persona llena de amor, alegría y bondad, y estoy muy agradecida por cada momento que hemos compartido.
+                Gracias por siempre estar para mi, amiga, no sabes cuanto te quiero.
+                Te deseo un año lleno de alegrías, aprendizajes y nuevas aventuras.
+                Espero que este año sea un año muy feliz para ti, amiga, ya te debo muchos regalos, pero no te preocupes, los iré cumpliendo poco a poco.
+                Primero Diosito me tiene que dar la oportunidad de trabajar, y luego te los iré cumpliendo.
+                Espero que este año sea uno lleno de bendiciones y alegrías, y que sigas brillando con esa luz tan especial que tienes.
+                ¡Nunca dejes de ser tú misma, Lucecita!
+                Te quiero muchísimo y siempre estaré aquí para ti.
+                ¡Feliz cumpleaños, hermana!
+                ¡Eres única y maravillosa!
+            </div>
+            
+            <p>Algunos de nuestros recuerdos:</p>
+            
+            <!-- Carrusel de fotos -->
+            <div class="carousel-container">
+                <div class="carousel-track">
+                    <img src="assets/happy.jpeg" alt="Foto 1">
+                    <img src="assets/one.jpeg" alt="Foto 2">
+                    <img src="assets/three.jpeg" alt="Foto 3">
+                    <img src="assets/two.jpeg" alt="Foto 4">
+                </div>
+            </div>
+
+            <p>Que este nuevo año de vida venga cargado de bendiciones, aprendizajes y muchos momentos felices.
+            Estoy muy orgullosa de la persona en la que te has convertido y siempre estaré aquí para ti.</p>
+            
+            <p>Con todo mi cariño,<br>Dani</p>
+        </div>
+        
+        <footer>
+            <p>Hecho con todo el ♥ para el cumpleaños de Lucecita</p>
+        </footer>
+    </div>
+
+    <!-- Audio oculto para Las Mañanitas -->
+    <audio id="birthday-song" src="las_mananitas_instrumental.mp3" preload="auto"></audio>
+
+    <script>
+        // Confeti
+        function createConfetti() {
+            const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722'];
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+                    document.body.appendChild(confetti);
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 5000);
+                }, i * 50);
+            }
+        }
+
+        // Globos
+        function createBalloons() {
+            const colors = ['#f44336', '#2196f3', '#4caf50', '#ffeb3b', '#ff9800'];
+            const positions = [[20, 50], [80, 100], [10, 200], [90, 150]];
+            positions.forEach((pos, i) => {
+                const balloon = document.createElement('div');
+                balloon.classList.add('balloon');
+                balloon.style.backgroundColor = colors[i % colors.length];
+                balloon.style.left = pos[0] + '%';
+                balloon.style.top = pos[1] + 'px';
+                balloon.style.animationDelay = (i * 0.5) + 's';
+                document.querySelector('.container').appendChild(balloon);
+            });
+        }
+
+        // Carrusel automático
+        const track = document.querySelector('.carousel-track');
+        const images = document.querySelectorAll('.carousel-track img');
+        let index = 0;
+
+        function moveCarousel() {
+            index = (index + 1) % images.length;
+            const offset = -index * 100;
+            track.style.transform = `translateX(${offset}%)`;
+        }
+
+        // Control de audio
+        const audio = document.getElementById('birthday-song');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const volumeSlider = document.getElementById('volume');
+        const musicStatus = document.getElementById('music-status');
+        let isPlaying = true;
+
+        // Configurar el audio
+        audio.volume = 0.5; // Volumen inicial
+
+        // Reproducir automáticamente cuando interactúe con la página
+        document.addEventListener('click', function() {
+            if (!isPlaying) {
+                audio.play().catch(error => {
+                    console.log("Error reproduciendo audio:", error);
+                });
+                isPlaying = true;
+                playPauseBtn.textContent = 'Pausar';
+                musicStatus.textContent = 'Las mañanitas están sonandoo';
+            }
+        }, { once: true });
+
+        // Botón de reproducir/pausar
+        playPauseBtn.addEventListener('click', function() {
+            if (isPlaying) {
+                audio.pause();
+                playPauseBtn.textContent = 'Reproducir';
+                musicStatus.textContent = 'Música en pausa';
+            } else {
+                audio.play();
+                playPauseBtn.textContent = 'Pausar';
+                musicStatus.textContent = 'Las mañanitas están sonandoo';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // Botón de reiniciar
+        restartBtn.addEventListener('click', function() {
+            audio.currentTime = 0;
+            if (!isPlaying) {
+                audio.play();
+                isPlaying = true;
+                playPauseBtn.textContent = 'Pausar';
+                musicStatus.textContent = 'Las Mañanitas está sonando';
+            }
+        });
+
+        // Control de volumen
+        volumeSlider.addEventListener('input', function() {
+            audio.volume = this.value;
+        });
+
+        // Reproducir en loop
+        audio.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        });
+
+        // Inicializar todo
+        window.addEventListener('load', () => {
+            // Intentar reproducir automáticamente (puede fallar debido a políticas del navegador)
+            audio.play().catch(error => {
+                console.log("Reproducción automática bloqueada:", error);
+                isPlaying = false;
+                playPauseBtn.textContent = 'Reproducir';
+                musicStatus.textContent = 'Haz clic para escuchar algo, jeje';
+            });
+
+            createConfetti();
+            setInterval(createConfetti, 10000);
+            createBalloons();
+            setInterval(moveCarousel, 3000);
+        });
+    </script>
+</body>
+</html>
